@@ -1,39 +1,20 @@
-import 'package:car_tracker/taps/CarAlarmScreen.dart';
-import 'package:car_tracker/taps/CarStatusScreen.dart';
-import 'package:car_tracker/taps/MessagesHistoryScreen.dart';
-import 'package:car_tracker/taps/PayFinesScreen.dart';
-import 'package:car_tracker/taps/TrafficViolationsScreen.dart';
-import 'package:car_tracker/taps/customeCard.dart';
+import 'package:car_tracker/taps/MapCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:car_tracker/taps/customeCard.dart';
+import 'package:car_tracker/taps/CarStatusScreen.dart';
+import 'package:car_tracker/taps/CarAlarmScreen.dart';
+import 'package:car_tracker/taps/TrafficViolationsScreen.dart';
+import 'package:car_tracker/taps/PayFinesScreen.dart';
+import 'package:car_tracker/taps/MessagesHistoryScreen.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   static const String routeName = '/home';
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  LatLng carLocation = LatLng(30.0444, 31.2357); // Initial location (Cairo)
-
-  /// Simulates changing car location.
-  /// In real apps, use GPS or live data.
-  void _changeCarLocation() {
-    setState(() {
-      carLocation = LatLng(
-        carLocation.latitude + 0.001,
-        carLocation.longitude + 0.001,
-      );
-    });
-  }
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
 
@@ -92,103 +73,7 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             // Map Card
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 3,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  height: 250,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      FlutterMap(
-                        options: MapOptions(center: carLocation, zoom: 13.0),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                          ),
-                          MarkerLayer(
-                            markers: [
-                              Marker(
-                                point: carLocation,
-                                width: 60,
-                                height: 60,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: Colors.red,
-                                      size: 30,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 2,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(6),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 4,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: const Text(
-                                        "My Car",
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      // Update Location Button
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: ElevatedButton.icon(
-                          onPressed: _changeCarLocation,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.refresh_sharp,
-                            size: 18,
-                            color: Colors.blueAccent,
-                          ),
-                          label: const Text(
-                            'Update Location',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blueAccent,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            const MapCard(),
 
             const SizedBox(height: 20),
 
@@ -216,8 +101,9 @@ class _HomeState extends State<Home> {
                   title1: 'Traffic Violations',
                   title2:
                       'List of current and previous traffic violations recorded for the car.',
-                      onTap: () {
-                    Navigator.pushNamed(context, TrafficViolationsScreen.routeName);
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, TrafficViolationsScreen.routeName);
                   },
                 ),
                 CustomCard(
@@ -225,7 +111,7 @@ class _HomeState extends State<Home> {
                   title1: 'Pay Fines',
                   title2:
                       'Settle unpaid traffic fines directly through the app.',
-                      onTap: () {
+                  onTap: () {
                     Navigator.pushNamed(context, PayFinesScreen.routeName);
                   },
                 ),
@@ -234,8 +120,9 @@ class _HomeState extends State<Home> {
                   title1: 'Messages & History',
                   title2:
                       'View communication messages and previous system alerts related to the vehicle.',
-                      onTap: () {
-                    Navigator.pushNamed(context, MessagesHistoryScreen.routeName);
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, MessagesHistoryScreen.routeName);
                   },
                 ),
               ],
